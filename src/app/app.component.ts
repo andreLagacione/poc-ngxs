@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { ZooState } from './states/zoo.state';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ngxs';
+
+  // @ts-ignore
+  @Select(ZooState.pandas) pandas$: Observable<string[]>;
 }

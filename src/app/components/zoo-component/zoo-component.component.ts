@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
 import { AddAnimal } from 'src/app/actions/add-animal.actions';
 import { Todo } from 'src/app/actions/todo.namespace.actions';
+import { ZooState, ZooStateModel } from 'src/app/states/zebra.state';
 
 @Component({
   selector: 'app-zoo-component',
@@ -12,12 +13,21 @@ import { Todo } from 'src/app/actions/todo.namespace.actions';
 export class ZooComponentComponent {
 
   // @ts-ignore
-  @Select(state => state.animals) animals$: Observable<any>;
+  @Select(ZooState) animals$: Observable<string[]>;
+  // @Select(ZooState.pandas) pandas$: Observable<string[]>;
+  // @Select(state => state.zoo.animals) animals2$: Observable<string[]>;
+  // @Select() zoo$: Observable<ZooStateModel>;
+
+  animals2$: Observable<string[]>;
+
+
   addVideo = new Todo.Add('Add');
   editVideo = new Todo.Edit('Edit');
   deleteVideo = new Todo.Delete('Delete');
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {
+    this.animals2$ = this.store.select(state => state.zoo.animals);
+  }
 
   addAnimal(name: string) {
     this.store.dispatch(new AddAnimal(name))

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, StateToken } from '@ngxs/store';
+import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs';
 import { FeedAnimals } from '../actions/feed-animals.action';
 import { TakeAnimalsOutside } from '../actions/take-animal-outside.action';
@@ -34,5 +34,10 @@ export class ZooState {
             }),
             mergeMap(() => ctx.dispatch(new TakeAnimalsOutside('boi')))
         );
+    }
+
+    @Selector()
+    static pandas(state: string[]) {
+        return state.filter(s => s.indexOf('panda') > -1);
     }
 }

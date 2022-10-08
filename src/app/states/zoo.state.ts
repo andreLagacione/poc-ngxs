@@ -19,7 +19,6 @@ const ZOO_STATE_TOKEN = new StateToken<ZooStateModel>('zoo');
 })
 @Injectable()
 export class ZooState {
-
     constructor (private animalService: AnimalService) {}
 
     @Action(FeedAnimals)

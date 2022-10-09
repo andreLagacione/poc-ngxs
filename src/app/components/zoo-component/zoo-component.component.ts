@@ -27,6 +27,10 @@ export class ZooComponentComponent {
 
   constructor(private store: Store) {
     this.animals2$ = this.store.select(state => state.zoo.animals);
+
+    this.store.subscribe(
+      _response => console.log('animal added', _response)
+    )
   }
 
   addAnimal(name: string) {

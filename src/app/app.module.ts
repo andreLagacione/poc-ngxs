@@ -4,16 +4,18 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { ZooComponentComponent } from './components/zoo-component/zoo-component.component';
-import { ZooState } from './states/zoo.state';
+import { MainDocumentsState } from './states/main-documents.state';
+import { MainDocumentsComponent } from './components/main-documents/main-documents.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ZooComponentComponent
+    ZooComponentComponent,
+    MainDocumentsComponent
   ],
   imports: [
     BrowserModule,
-    NgxsModule.forRoot([ZooState], {
+    NgxsModule.forRoot([MainDocumentsState], {
       developmentMode: !environment.production
     })
   ],

@@ -29,16 +29,16 @@ export class ZooComponentComponent {
     this.animals2$ = this.store.select(state => state.zoo.animals);
 
     this.store.subscribe(
-      _response => console.log('animal added', _response)
+      // _response => console.log('animal added', _response)
     )
   }
 
   addAnimal(name: string) {
-    this.store.dispatch(new AddAnimal(name))
-      .pipe(withLatestFrom(this.animals$))
-      .subscribe(
-        ([_, animals]) => console.log('dispatch success', _, animals)
-      );
+    // this.store.dispatch(new AddAnimal(name))
+    //   .pipe(withLatestFrom(this.animals$))
+    //   .subscribe(
+    //     ([_, animals]) => console.log('dispatch success', _, animals)
+    //   );
   }
 
 }

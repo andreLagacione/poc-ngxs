@@ -6,6 +6,7 @@ import { Observable, of } from "rxjs";
 })
 export class AnimalService {
     feed(animalToFeed: string): Observable<string> {
+        console.log('AnimalService')
         return of(animalToFeed);
     }
 }

@@ -4,8 +4,9 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { ZooComponentComponent } from './components/zoo-component/zoo-component.component';
-import { MainDocumentsState } from './states/main-documents.state';
+import { AddDocumentCategoryState } from './states/add-document-category.state';
 import { MainDocumentsComponent } from './components/main-documents/main-documents.component';
+import { ZooState } from './states/zoo.state';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { MainDocumentsComponent } from './components/main-documents/main-documen
   ],
   imports: [
     BrowserModule,
-    NgxsModule.forRoot([MainDocumentsState], {
+    NgxsModule.forRoot([AddDocumentCategoryState, ZooState], {
       developmentMode: !environment.production
     })
   ],

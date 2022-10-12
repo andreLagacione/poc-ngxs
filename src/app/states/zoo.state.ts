@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from '@ngxs/store';
 import { tap, mergeMap } from 'rxjs';
+import { AddAnimal } from '../actions/add-animal.actions';
 import { FeedAnimals } from '../actions/feed-animals.action';
 import { TakeAnimalsOutside } from '../actions/take-animal-outside.action';
 import { AnimalService } from '../services/animal.service';
@@ -21,18 +22,18 @@ const ZOO_STATE_TOKEN = new StateToken<ZooStateModel>('zoo');
 export class ZooState {
     constructor (private animalService: AnimalService) {}
 
-    @Action(FeedAnimals)
-    feedAnimals(ctx: StateContext<ZooStateModel>, action: FeedAnimals) {
-        return this.animalService.feed(action.animalsToFeed).pipe(
-            tap(animalsToFeedResult => {
-                const state = ctx.getState();
-                ctx.setState({
-                    ...state,
-                    feedAnimals: [...state.feedAnimals, animalsToFeedResult]
-                });
-            }),
-            mergeMap(() => ctx.dispatch(new TakeAnimalsOutside('boi')))
-        );
+    @Action(AddAnimal)
+    feedAnimals(ctx: StateContext<ZooStateModel>, action: AddAnimal) {
+        this.animalService.feed(action.name)
+        .subscribe(animalsToFeedResult => {
+            const state = ctx.getState();
+            ctx.patchState({
+                feedAnimals: [
+                    ...state.feedAnimals,
+                    animalsToFeedResult
+                ]
+            });
+        });
     }
 
     @Selector()

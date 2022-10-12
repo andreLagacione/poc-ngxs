@@ -12,5 +12,5 @@ export class AppComponent {
   title = 'ngxs';
 
   // @ts-ignore
-  @Select(ZooState.pandas) pandas$: Observable<string[]>;
+  // @Select(ZooState.pandas) pandas$: Observable<string[]>;
 }

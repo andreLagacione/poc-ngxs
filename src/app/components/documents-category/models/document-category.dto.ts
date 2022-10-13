@@ -1,4 +1,4 @@
-export class DocumentCategory {
+export class DocumentCategoryDTO {
     title: string;
     description: string;
     completed: boolean;

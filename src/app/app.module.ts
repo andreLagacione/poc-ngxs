@@ -9,6 +9,7 @@ import { DocumentsCategoryComponent } from './components/documents-category/docu
 import { ZooState } from './states/zoo.state';
 import { AppRoutingModule } from './app-routing.module';
 import { CompanyDocumentsComponent } from './components/company-documents/company-documents.component';
+import { AddCompanyDocumentState } from './components/company-documents/states/add-company-document.state';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { CompanyDocumentsComponent } from './components/company-documents/compan
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxsModule.forRoot([AddDocumentCategoryState, ZooState], {
+    NgxsModule.forRoot([AddDocumentCategoryState, ZooState, AddCompanyDocumentState], {
       developmentMode: !environment.production
     })
   ],

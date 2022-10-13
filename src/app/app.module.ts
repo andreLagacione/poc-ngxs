@@ -4,18 +4,22 @@ import { NgxsModule } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { ZooComponentComponent } from './components/zoo-component/zoo-component.component';
-import { AddDocumentCategoryState } from './states/add-document-category.state';
-import { MainDocumentsComponent } from './components/main-documents/main-documents.component';
+import { AddDocumentCategoryState } from './components/documents-category/states/add-document-category.state';
+import { DocumentsCategoryComponent } from './components/documents-category/documents-category.component';
 import { ZooState } from './states/zoo.state';
+import { AppRoutingModule } from './app-routing.module';
+import { CompanyDocumentsComponent } from './components/company-documents/company-documents.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ZooComponentComponent,
-    MainDocumentsComponent
+    DocumentsCategoryComponent,
+    CompanyDocumentsComponent
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     NgxsModule.forRoot([AddDocumentCategoryState, ZooState], {
       developmentMode: !environment.production
     })

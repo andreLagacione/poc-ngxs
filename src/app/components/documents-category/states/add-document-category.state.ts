@@ -1,19 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Action, State, StateContext } from "@ngxs/store";
+import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { AddDocumentCategory } from "../actions/add-document-category.action";
+import { DocumentsCategoryStateModel } from "../models/document-category-state.model";
+import { DocumentState } from "../models/documents-state.interface";
 
-export interface IDocumentCategory {
-    title: string;
-    description: string;
-    completed: boolean;
-}
-
-export interface DocumentsCategoryStateModel {
-    documents: IDocumentCategory[];
-}
+const STATE_TOKEN = new StateToken<DocumentState>('documentsCategory');
 
 @State<DocumentsCategoryStateModel>({
-    name: 'documentsCategory',
+    name: STATE_TOKEN,
     defaults: {
         documents: []
     }
@@ -31,5 +25,10 @@ export class AddDocumentCategoryState {
                 action.document
             ]
         });
+    }
+
+    @Selector()
+    static hasCategories(state: DocumentState) {
+        return !!state.documents.length;
     }
 }

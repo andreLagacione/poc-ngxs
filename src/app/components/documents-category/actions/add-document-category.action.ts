@@ -1,4 +1,4 @@
-import { IDocumentCategory } from "../states/add-document-category.state";
+import { IDocumentCategory } from "../models/document-category.interface";
 
 export class AddDocumentCategory {
     static readonly type = '[Documents] AddDocumentCategory';

@@ -1,8 +1,0 @@
-
-<button (click)="addDocument()">add documento</button>
-
-<div *ngFor="let item of (documents$ | async)?.documents">
-    <strong>{{ item.title }}</strong>
-    <p>{{ item.description }}</p>
-    <p>documento {{ !item.completed ? ' não' : '' }} enviado</p>
-</div>

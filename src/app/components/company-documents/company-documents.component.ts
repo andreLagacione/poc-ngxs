@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, take, withLatestFrom } from 'rxjs';
+import { Observable, take, takeUntil, withLatestFrom } from 'rxjs';
 import { UpdateDocumentCategory } from '../documents-category/actions/update-document-category.action';
 import { AddCompanyDocument } from './actions/add-company-document.action';
 import { UpdateCompanyDocument } from './actions/update-company-document.action';
@@ -46,7 +46,10 @@ export class CompanyDocumentsComponent implements OnInit {
           isRequired: document.isRequired,
           uploaded: document.uploaded,
         }))
-        .pipe(withLatestFrom(this.documents$));
+        .pipe(withLatestFrom(this.documents$))
+        .subscribe(([state, action]) => {
+          console.log(state, action)
+        });
       });
     });
   }
@@ -67,6 +70,7 @@ export class CompanyDocumentsComponent implements OnInit {
     const wasUpdated = !!documents.filter(document => document.isRequired && document.uploaded).length;
     if (!wasUpdated) return;
     const storeSnapshot = this.store.snapshot();
+    console.log(storeSnapshot)
 
     if (storeSnapshot.documentsCategory.documents.length) {
       this.store.dispatch(new UpdateDocumentCategory({

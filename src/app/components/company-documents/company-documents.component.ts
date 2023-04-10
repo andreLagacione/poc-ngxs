@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, take, takeUntil, withLatestFrom } from 'rxjs';
+import { Actions, ofAction, ofActionCompleted, ofActionDispatched, ofActionErrored, ofActionSuccessful, Select, Store } from '@ngxs/store';
+import { Observable, withLatestFrom } from 'rxjs';
 import { UpdateDocumentCategory } from '../documents-category/actions/update-document-category.action';
-import { AddCompanyDocument } from './actions/add-company-document.action';
 import { UpdateCompanyDocument } from './actions/update-company-document.action';
 import { CompanyDocumentStateModel } from './models/company-document-state.model';
 import { ICompanyDocument } from './models/company-document.interface';
-import { CompanyDocumentsService } from './services/company-documents.service';
 import { AddCompanyDocumentState } from './states/add-company-document.state';
 
 @Component({
@@ -17,41 +15,40 @@ import { AddCompanyDocumentState } from './states/add-company-document.state';
 })
 export class CompanyDocumentsComponent implements OnInit {
 
-  // @ts-ignore
-  @Select(AddCompanyDocumentState) documents$: Observable<CompanyDocumentStateModel>;
-  // @ts-ignore
-  @Select(AddCompanyDocumentState.hasDocuments) hasDocuments$: Observable<boolean>;
+  documents$: Observable<CompanyDocumentStateModel>;
+  hasDocuments$: Observable<boolean>;
 
   constructor(
     private store: Store,
-    private companyDocumentsService: CompanyDocumentsService,
+    private actions: Actions,
     private router: Router,
-  ) { }
-
-  ngOnInit(): void {
-    this.hasDocuments$.pipe(take(1)).subscribe(_response => {
-      if (!_response) this.getDocuments();
-    });
-
-    this.documents$.subscribe(_response => this.checkIfRequiredDocumentWasUpdated(_response.documents));
+  ) {
+    this.documents$ = this.store.select(AddCompanyDocumentState);
+    this.hasDocuments$ = this.store.select(AddCompanyDocumentState.hasDocuments);
   }
 
-  getDocuments() {
-    this.companyDocumentsService.get().subscribe(_response => {
-      _response.map(document => {
-        this.store.dispatch(new AddCompanyDocument({
-          id: document.id,
-          title: document.title,
-          description: document.description,
-          isRequired: document.isRequired,
-          uploaded: document.uploaded,
-        }))
-        .pipe(withLatestFrom(this.documents$))
-        .subscribe(([state, action]) => {
-          console.log(state, action)
-        });
-      });
-    });
+  ngOnInit(): void {
+    this.documents$.subscribe(_response => this.checkIfRequiredDocumentWasUpdated(_response.documents));
+
+    this.actions.pipe(
+      ofActionSuccessful(UpdateCompanyDocument)
+    ).subscribe(e => console.log('ofActionSuccessful', e));
+
+      this.actions.pipe(
+        ofAction(UpdateCompanyDocument)
+      ).subscribe(e => console.log('ofAction', e));
+
+      this.actions.pipe(
+        ofActionDispatched(UpdateCompanyDocument)
+      ).subscribe(e => console.log('ofActionDispatched', e));
+
+      this.actions.pipe(
+        ofActionErrored(UpdateCompanyDocument)
+      ).subscribe(e => console.log('ofActionErrored', e));
+
+      this.actions.pipe(
+        ofActionCompleted(UpdateCompanyDocument)
+      ).subscribe(e => console.log('ofActionCompleted', e));
   }
 
   uploadDocument(document: ICompanyDocument) {

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { NgxsOnInit } from "@ngxs/store";
 import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { AddCompanyDocument } from "../actions/add-company-document.action";
 import { UpdateCompanyDocument } from "../actions/update-company-document.action";
@@ -14,11 +15,17 @@ const STATE_TOKEN = new StateToken<CompanyDocumentStateModel>('companyDocument')
     }
 })
 @Injectable()
-export class AddCompanyDocumentState {
+export class AddCompanyDocumentState implements NgxsOnInit {
 
     constructor (
         private companyDocumentsService: CompanyDocumentsService
     ) {}
+
+    ngxsOnInit(ctx: StateContext<any>): void {
+        this.companyDocumentsService.get().subscribe(documents => {
+            ctx.patchState({documents});
+          });
+    }
 
     @Action(AddCompanyDocument)
     addCompanyDocument(ctx: StateContext<CompanyDocumentStateModel>, action: AddCompanyDocument) {
@@ -33,6 +40,7 @@ export class AddCompanyDocumentState {
 
     @Action(UpdateCompanyDocument)
     updateCompanyDocument(ctx: StateContext<CompanyDocumentStateModel>, action: UpdateCompanyDocument) {
+        // throw new Error(`erro`)
         this.companyDocumentsService.update().subscribe(() => {
             const state = ctx.getState();
             let updatedDocuments = JSON.parse(JSON.stringify(state.documents));
